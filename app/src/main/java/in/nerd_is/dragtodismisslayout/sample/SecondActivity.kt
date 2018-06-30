@@ -14,22 +14,19 @@
  *    limitations under the License.
  */
 
-package `in`.nerd_is.dragtodismisslayout
+package `in`.nerd_is.dragtodismisslayout.sample
 
-import android.content.Intent
+import `in`.nerd_is.dragtodismisslayout.DefaultDismissAnimator
 import android.os.Bundle
-import androidx.appcompat.app.AppCompatActivity
-import kotlinx.android.synthetic.main.activity_main.*
+import android.support.v7.app.AppCompatActivity
+import kotlinx.android.synthetic.main.activity_second.*
 
-class MainActivity : AppCompatActivity() {
+class SecondActivity : AppCompatActivity() {
 
   override fun onCreate(savedInstanceState: Bundle?) {
     super.onCreate(savedInstanceState)
-    setContentView(R.layout.activity_main)
+    setContentView(R.layout.activity_second)
 
-    button.setOnClickListener {
-      val intent = Intent(this, SecondActivity::class.java)
-      startActivity(intent)
-    }
+    dragToDismissLayout.addListener(DefaultDismissAnimator(this))
   }
 }

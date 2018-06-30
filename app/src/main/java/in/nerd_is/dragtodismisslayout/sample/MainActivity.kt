@@ -14,19 +14,22 @@
  *    limitations under the License.
  */
 
-package `in`.nerd_is.dragtodismisslayout
+package `in`.nerd_is.dragtodismisslayout.sample
 
-import org.junit.Assert.assertEquals
-import org.junit.Test
+import android.content.Intent
+import android.os.Bundle
+import android.support.v7.app.AppCompatActivity
+import kotlinx.android.synthetic.main.activity_main.*
 
-/**
- * Example local unit test, which will execute on the development machine (host).
- *
- * See [testing documentation](http://d.android.com/tools/testing).
- */
-class ExampleUnitTest {
-  @Test
-  fun addition_isCorrect() {
-    assertEquals(4, 2 + 2)
+class MainActivity : AppCompatActivity() {
+
+  override fun onCreate(savedInstanceState: Bundle?) {
+    super.onCreate(savedInstanceState)
+    setContentView(R.layout.activity_main)
+
+    button.setOnClickListener {
+      val intent = Intent(this, SecondActivity::class.java)
+      startActivity(intent)
+    }
   }
 }

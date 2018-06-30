@@ -19,9 +19,8 @@ package in.nerd_is.dragtodismisslayout;
 import android.content.Context;
 import android.content.res.Configuration;
 import android.content.res.Resources;
+import android.support.annotation.NonNull;
 import android.util.DisplayMetrics;
-
-import androidx.annotation.NonNull;
 
 /**
  * @author Xuqiang ZHENG on 2017/4/7.

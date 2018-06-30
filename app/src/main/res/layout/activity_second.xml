@@ -25,7 +25,7 @@
   app:dragDismissDistance="148dp"
   app:dragDismissScale="0.75">
 
-  <androidx.core.widget.NestedScrollView
+  <android.support.v4.widget.NestedScrollView
     android:layout_width="match_parent"
     android:layout_height="match_parent">
 
@@ -35,5 +35,5 @@
       android:layout_gravity="center"
       android:text="Nothing but some text" />
 
-  </androidx.core.widget.NestedScrollView>
+  </android.support.v4.widget.NestedScrollView>
 </in.nerd_is.dragtodismisslayout.DragToDismissLayout>

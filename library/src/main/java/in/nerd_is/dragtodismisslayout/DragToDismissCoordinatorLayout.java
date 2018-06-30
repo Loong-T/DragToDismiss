@@ -17,11 +17,11 @@
 package in.nerd_is.dragtodismisslayout;
 
 import android.content.Context;
+import android.support.design.widget.CoordinatorLayout;
+import android.support.v4.view.ViewCompat;
 import android.util.AttributeSet;
 import android.view.View;
 
-import androidx.coordinatorlayout.widget.CoordinatorLayout;
-import androidx.core.view.ViewCompat;
 
 /**
  * @author Xuqiang ZHENG on 2017/4/7.
