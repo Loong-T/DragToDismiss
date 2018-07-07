@@ -30,6 +30,8 @@
   </style>
 
   <style name="AppTheme.TranslucentBackground">
+    <item name="windowActionBar">false</item>
+    <item name="windowNoTitle">true</item>
     <item name="android:windowIsTranslucent">true</item>
     <item name="android:windowBackground">@color/translucent_background</item>
   </style>

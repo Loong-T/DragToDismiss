@@ -19,23 +19,16 @@ package in.nerd_is.dragtodismisslayout;
 import android.content.Context;
 import android.support.annotation.NonNull;
 import android.support.annotation.Nullable;
+import android.support.v4.view.ViewCompat;
 import android.util.AttributeSet;
 import android.view.MotionEvent;
+import android.view.View;
 import android.widget.FrameLayout;
 
 /**
  * @author Xuqiang ZHENG on 2017/4/9.
  */
 public class DragToDismissLayout extends FrameLayout {
-
-    private static int STATE_IDLE = 0;
-    private static int STATE_DRAGGING = 1;
-
-    private int dragState = STATE_IDLE;
-    private float initX;
-    private float initY;
-    private float lastY;
-    private float minDragDistance;
 
     private DragToDismissHelper helper;
 
@@ -50,7 +43,6 @@ public class DragToDismissLayout extends FrameLayout {
     public DragToDismissLayout(@NonNull Context context, @Nullable AttributeSet attrs, int defStyleAttr) {
         super(context, attrs, defStyleAttr);
         helper = DragToDismissHelper.create(context, attrs, this);
-        minDragDistance = dp2Px(4);
     }
 
     @Override
@@ -60,51 +52,32 @@ public class DragToDismissLayout extends FrameLayout {
     }
 
     @Override
-    public boolean onInterceptTouchEvent(MotionEvent ev) {
-        switch (ev.getActionMasked()) {
-            case MotionEvent.ACTION_DOWN:
-                dragState = STATE_IDLE;
-                initX = ev.getX();
-                initY = ev.getY();
-                lastY = ev.getY();
-                break;
-            case MotionEvent.ACTION_MOVE:
-                if (ev.getPointerCount() == 1 &&
-                        dragState != STATE_DRAGGING &&
-                        distance(initX, initY, ev.getX(), ev.getY()) > minDragDistance) {
-                    dragState = STATE_DRAGGING;
-                }
-                break;
-            case MotionEvent.ACTION_UP:
-            case MotionEvent.ACTION_CANCEL:
-                dragState = STATE_IDLE;
-                break;
-            default:
-                return false;
-        }
-        return dragState == STATE_DRAGGING;
+    public boolean onStartNestedScroll(View child, View target, int nestedScrollAxes) {
+        return (nestedScrollAxes & ViewCompat.SCROLL_AXIS_VERTICAL) != 0;
     }
 
     @Override
-    public boolean onTouchEvent(MotionEvent ev) {
-        int actionMasked = ev.getActionMasked();
-
-        if (actionMasked == MotionEvent.ACTION_MOVE) {
-            int scroll = (int) (lastY - ev.getY());
-            lastY = ev.getY();
-            helper.dragScale(scroll);
-
-            return true;
+    public void onNestedPreScroll(View target, int dx, int dy, int[] consumed) {
+        if (helper.draggingDown && dy > 0 || helper.draggingUp && dy < 0) {
+            helper.dragScale(dy);
+            consumed[1] = dy;
         }
+    }
 
-        if (actionMasked == MotionEvent.ACTION_UP && dragState == STATE_DRAGGING) {
-            helper.finishOrCancel();
-            dragState = STATE_IDLE;
+    @Override
+    public void onNestedScroll(View target, int dxConsumed, int dyConsumed,
+                               int dxUnconsumed, int dyUnconsumed) {
+        helper.dragScale(dyUnconsumed);
+    }
 
-            return true;
-        }
+    @Override public boolean onInterceptTouchEvent(MotionEvent ev) {
+        helper.lastEventAction = ev.getAction();
+        return super.onInterceptTouchEvent(ev);
+    }
 
-        return super.onTouchEvent(ev);
+    @Override
+    public void onStopNestedScroll(View child) {
+        helper.finishOrCancel();
     }
 
     public void addListener(DragToDismissCallback listener) {
@@ -113,15 +86,5 @@ public class DragToDismissLayout extends FrameLayout {
 
     public void removeListener(DragToDismissCallback listener) {
         helper.removeListener(listener);
-    }
-
-    private float distance(float x1, float y1, float x2, float y2) {
-        float dx = x1 - x2;
-        float dy = y1 - y2;
-        return (float) Math.sqrt(dx * dx + dy * dy);
-    }
-
-    private float dp2Px(float dp) {
-        return dp / getResources().getDisplayMetrics().density;
     }
 }

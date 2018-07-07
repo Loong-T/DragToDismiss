@@ -20,6 +20,7 @@ import android.content.Context;
 import android.support.design.widget.CoordinatorLayout;
 import android.support.v4.view.ViewCompat;
 import android.util.AttributeSet;
+import android.view.MotionEvent;
 import android.view.View;
 
 
@@ -40,7 +41,6 @@ public class DragToDismissCoordinatorLayout extends CoordinatorLayout {
 
     public DragToDismissCoordinatorLayout(Context context, AttributeSet attrs, int defStyleAttr) {
         super(context, attrs, defStyleAttr);
-
         helper = DragToDismissHelper.create(context, attrs, this);
     }
 
@@ -64,6 +64,11 @@ public class DragToDismissCoordinatorLayout extends CoordinatorLayout {
                                int dxUnconsumed, int dyUnconsumed) {
         super.onNestedScroll(target, dxConsumed, dyConsumed, dxUnconsumed, dyUnconsumed);
         helper.dragScale(dyUnconsumed);
+    }
+
+    @Override public boolean onInterceptTouchEvent(MotionEvent ev) {
+        helper.lastEventAction = ev.getAction();
+        return super.onInterceptTouchEvent(ev);
     }
 
     @Override

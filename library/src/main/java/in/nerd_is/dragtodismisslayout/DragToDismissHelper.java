@@ -21,6 +21,7 @@ import android.content.res.TypedArray;
 import android.support.annotation.NonNull;
 import android.support.annotation.Nullable;
 import android.util.AttributeSet;
+import android.view.MotionEvent;
 import android.view.View;
 
 import java.util.ArrayList;
@@ -29,17 +30,19 @@ import java.util.List;
 /**
  * @author Xuqiang ZHENG on 2017/4/19.
  */
+@SuppressWarnings("UnusedAssignment")
 class DragToDismissHelper {
 
     boolean draggingDown = false;
     boolean draggingUp = false;
+    int lastEventAction;
 
     private View view;
     private float totalDrag;
 
     private float distance = Float.MAX_VALUE;
     private float fraction = -1f;
-    private float elasticity = 0.618f;
+    private float elasticity = 0.8f;
     private float scale = 1f;
     private boolean shouldScale = false;
 
@@ -96,7 +99,7 @@ class DragToDismissHelper {
         }
         // how far have we dragged relative to the distance to perform a dismiss
         // (0–1 where 1 = dismiss distance). Decreasing logarithmically as we approach the limit
-        float dragFraction = (float) MathUtils.log2(1 + (absTotalDrag / distance));
+        float dragFraction = (float) Math.log10(1 + (absTotalDrag / distance));
 
         // calculate the desired translation given the drag fraction
         float dragTo = dragFraction * distance * elasticity;
@@ -110,7 +113,7 @@ class DragToDismissHelper {
 
         if (shouldScale && absTotalDrag > distance) {
             // 1 = log2(1 + distance / distance)
-            final float scale = 1 - ((1 - this.scale) * (dragFraction - 1));
+            final float scale = 1 - ((1 - this.scale) * dragFraction);
             view.setScaleX(scale);
             view.setScaleY(scale);
         }
@@ -137,12 +140,21 @@ class DragToDismissHelper {
         if (Math.abs(totalDrag) >= distance) {
             dispatchDismissCallback();
         } else { // settle back to natural position
-            view.animate()
-                    .translationY(0f)
-                    .scaleX(1f)
-                    .scaleY(1f)
-                    .setDuration(200L)
-                    .start();
+            if (lastEventAction == MotionEvent.ACTION_DOWN) {
+                // this is a 'defensive cleanup for new gestures',
+                // don't animate here
+                // see also https://github.com/nickbutcher/plaid/issues/185
+                view.setTranslationY(0f);
+                view.setScaleX(1f);
+                view.setScaleY(1f);
+            } else {
+                view.animate()
+                        .translationY(0f)
+                        .scaleX(1f)
+                        .scaleY(1f)
+                        .setDuration(200L)
+                        .start();
+            }
             totalDrag = 0;
             draggingUp = false;
             draggingDown = false;
