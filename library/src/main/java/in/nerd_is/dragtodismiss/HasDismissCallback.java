@@ -14,20 +14,17 @@
  *    limitations under the License.
  */
 
-package in.nerd_is.dragtodismisslayout;
+package in.nerd_is.dragtodismiss;
 
-import org.junit.Test;
+import android.support.annotation.NonNull;
 
-import static org.junit.Assert.assertEquals;
+import java.util.List;
 
 /**
- * Example local unit test, which will execute on the development machine (host).
- *
- * @see <a href="http://d.android.com/tools/testing">Testing documentation</a>
+ * @author Xuqiang ZHENG on 18/7/10.
  */
-public class ExampleUnitTest {
-    @Test
-    public void addition_isCorrect() {
-        assertEquals(4, 2 + 2);
-    }
+public interface HasDismissCallback {
+    @NonNull List<DragToDismissCallback> getDismissCallbacks();
+    void addListener(DragToDismissCallback listener);
+    void removeListener(DragToDismissCallback listener);
 }

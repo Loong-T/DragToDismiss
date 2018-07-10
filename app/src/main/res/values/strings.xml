@@ -15,6 +15,6 @@
   -->
 
 <resources>
-  <string name="app_name">DragToDissmissLayout</string>
+  <string name="app_name">DragToDismiss</string>
   <string name="title_activity_second">SecondActivity</string>
 </resources>

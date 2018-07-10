@@ -14,19 +14,24 @@
  *    limitations under the License.
  */
 
-package `in`.nerd_is.dragtodismisslayout.sample
+package in.nerd_is.dragtodismiss;
 
-import `in`.nerd_is.dragtodismisslayout.DefaultDismissAnimator
-import android.os.Bundle
-import android.support.v7.app.AppCompatActivity
-import kotlinx.android.synthetic.main.activity_second.*
+import android.support.annotation.CheckResult;
+import android.support.annotation.ColorInt;
+import android.support.annotation.IntRange;
 
-class SecondActivity : AppCompatActivity() {
+/**
+ * @author Xuqiang ZHENG on 2017/4/7.
+ */
+public class ColorUtils {
+    private ColorUtils() {
+    }
 
-  override fun onCreate(savedInstanceState: Bundle?) {
-    super.onCreate(savedInstanceState)
-    setContentView(R.layout.activity_second)
-
-    dragToDismissLayout.addListener(DefaultDismissAnimator(this))
-  }
+    /**
+     * Set the alpha component of {@code color} to be {@code alpha}.
+     */
+    public static @CheckResult @ColorInt int modifyAlpha(@ColorInt int color,
+                    @IntRange(from = 0, to = 255) int alpha) {
+        return (color & 0x00ffffff) | (alpha << 24);
+    }
 }

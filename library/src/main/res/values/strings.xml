@@ -15,5 +15,5 @@
   -->
 
 <resources>
-  <string name="app_name">Library</string>
+  <string name="behavior_drag_to_dismiss">in.nerd_is.dragtodismiss.DragToDismissBehavior</string>
 </resources>

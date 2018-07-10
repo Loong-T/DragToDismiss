@@ -14,7 +14,7 @@
  *    limitations under the License.
  */
 
-package in.nerd_is.dragtodismisslayout;
+package in.nerd_is.dragtodismiss;
 
 /**
  * @author Xuqiang ZHENG on 2017/4/10.

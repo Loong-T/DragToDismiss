@@ -14,30 +14,29 @@
  *    limitations under the License.
  */
 
-package in.nerd_is.dragtodismisslayout;
+package in.nerd_is.dragtodismiss;
 
 import android.content.Context;
 import android.content.res.TypedArray;
 import android.support.annotation.NonNull;
 import android.support.annotation.Nullable;
+import android.support.v4.view.ViewCompat;
 import android.util.AttributeSet;
 import android.view.MotionEvent;
 import android.view.View;
 
-import java.util.ArrayList;
 import java.util.List;
 
 /**
  * @author Xuqiang ZHENG on 2017/4/19.
  */
 @SuppressWarnings("UnusedAssignment")
-class DragToDismissHelper {
+public class DragToDismissHelper {
 
-    boolean draggingDown = false;
-    boolean draggingUp = false;
-    int lastEventAction;
+    public boolean draggingDown = false;
+    public boolean draggingUp = false;
+    public int lastEventAction;
 
-    private View view;
     private float totalDrag;
 
     private float distance = Float.MAX_VALUE;
@@ -46,34 +45,33 @@ class DragToDismissHelper {
     private float scale = 1f;
     private boolean shouldScale = false;
 
-    private List<DragToDismissCallback> callbacks;
-
-    private DragToDismissHelper(Context context, AttributeSet attrs, View view) {
+    private DragToDismissHelper(Context context, AttributeSet attrs) {
         final TypedArray a = context.obtainStyledAttributes(
-                attrs, R.styleable.DragToDismissLayout, 0, 0);
+                attrs, R.styleable.DragToDismiss, 0, 0);
 
         distance = a.getDimension(R.styleable
-                .DragToDismissLayout_dragDismissDistance, distance);
+                .DragToDismiss_dtd_dismissDistance, distance);
         fraction = a.getFloat(R.styleable
-                .DragToDismissLayout_dragDismissFraction, fraction);
+                .DragToDismiss_dtd_dismissFraction, fraction);
         elasticity = a.getFloat(R.styleable
-                .DragToDismissLayout_dragElasticity, elasticity);
+                .DragToDismiss_dtd_elasticity, elasticity);
         scale = a.getFloat(R.styleable
-                .DragToDismissLayout_dragDismissScale, scale);
+                .DragToDismiss_dtd_dismissScale, scale);
         shouldScale = scale != 1f;
 
         a.recycle();
-
-        this.view = view;
     }
 
-    static DragToDismissHelper create(@NonNull Context context,
-                                      @Nullable AttributeSet attrs,
-                                      @NonNull View view) {
-        return new DragToDismissHelper(context, attrs, view);
+    public static DragToDismissHelper create(@NonNull Context context,
+                                             @Nullable AttributeSet attrs) {
+        return new DragToDismissHelper(context, attrs);
     }
 
-    void dragScale(int scroll) {
+    public boolean isVerticalScroll(int nestedScrollAxes) {
+        return (nestedScrollAxes & ViewCompat.SCROLL_AXIS_VERTICAL) != 0;
+    }
+
+    public void dragScale(View view, int scroll) {
         if (scroll == 0) {
             return;
         }
@@ -132,13 +130,13 @@ class DragToDismissHelper {
             view.setScaleY(1f);
         }
 
-        dispatchDragCallback(dragFraction, dragTo,
+        dispatchDragCallback(view, dragFraction, dragTo,
                 Math.min(1f, Math.abs(totalDrag) / distance), totalDrag);
     }
 
-    void finishOrCancel() {
+    public void finishOrCancel(View view) {
         if (Math.abs(totalDrag) >= distance) {
-            dispatchDismissCallback();
+            dispatchDismissCallback(view);
         } else { // settle back to natural position
             if (lastEventAction == MotionEvent.ACTION_DOWN) {
                 // this is a 'defensive cleanup for new gestures',
@@ -158,43 +156,36 @@ class DragToDismissHelper {
             totalDrag = 0;
             draggingUp = false;
             draggingDown = false;
-            dispatchDragCallback(0f, 0f, 0f, 0f);
+            dispatchDragCallback(view, 0f, 0f, 0f, 0f);
         }
     }
 
-    void onHeightChanged(int h) {
+    public void onHeightChanged(int h) {
         if (fraction > 0f) {
             distance = h * fraction;
         }
     }
 
-    void addListener(DragToDismissCallback listener) {
-        if (callbacks == null) {
-            callbacks = new ArrayList<>();
-        }
-        callbacks.add(listener);
-    }
-
-    void removeListener(DragToDismissCallback listener) {
-        if (callbacks != null && callbacks.size() > 0) {
-            callbacks.remove(listener);
-        }
-    }
-
-    private void dispatchDragCallback(float elasticOffset, float elasticOffsetPixels,
+    private void dispatchDragCallback(View view, float elasticOffset, float elasticOffsetPixels,
                                       float rawOffset, float rawOffsetPixels) {
-        if (callbacks != null && !callbacks.isEmpty()) {
-            for (DragToDismissCallback callback : callbacks) {
-                callback.onDrag(elasticOffset, elasticOffsetPixels,
-                        rawOffset, rawOffsetPixels);
+        if (view instanceof HasDismissCallback) {
+            List<DragToDismissCallback> callbacks = ((HasDismissCallback) view).getDismissCallbacks();
+            if (!callbacks.isEmpty()) {
+                for (DragToDismissCallback callback : callbacks) {
+                    callback.onDrag(elasticOffset, elasticOffsetPixels,
+                            rawOffset, rawOffsetPixels);
+                }
             }
         }
     }
 
-    private void dispatchDismissCallback() {
-        if (callbacks != null && !callbacks.isEmpty()) {
-            for (DragToDismissCallback callback : callbacks) {
-                callback.onDragDismissed();
+    private void dispatchDismissCallback(View view) {
+        if (view instanceof HasDismissCallback) {
+            List<DragToDismissCallback> callbacks = ((HasDismissCallback) view).getDismissCallbacks();
+            if (!callbacks.isEmpty()) {
+                for (DragToDismissCallback callback : callbacks) {
+                    callback.onDragDismissed();
+                }
             }
         }
     }

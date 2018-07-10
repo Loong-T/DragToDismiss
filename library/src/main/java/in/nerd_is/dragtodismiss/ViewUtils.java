@@ -14,7 +14,7 @@
  *    limitations under the License.
  */
 
-package in.nerd_is.dragtodismisslayout;
+package in.nerd_is.dragtodismiss;
 
 import android.content.Context;
 import android.content.res.Configuration;

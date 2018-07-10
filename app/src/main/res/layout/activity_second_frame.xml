@@ -1,3 +1,4 @@
+<?xml version="1.0" encoding="utf-8"?>
 <!--
   ~    Copyright 2018 Xuqiang ZHENG
   ~
@@ -14,5 +15,15 @@
   ~    limitations under the License.
   -->
 
-<manifest
-  package="in.nerd_is.dragtodismiss" />
+<in.nerd_is.dragtodismiss.DragToDismissLayout
+  xmlns:android="http://schemas.android.com/apk/res/android"
+  xmlns:app="http://schemas.android.com/apk/res-auto"
+  android:id="@+id/dragToDismissLayout"
+  android:layout_width="match_parent"
+  android:layout_height="match_parent"
+  android:background="@android:color/white"
+  app:dtd_dismissDistance="148dp"
+  app:dtd_dismissScale="0.75">
+
+  <include layout="@layout/include_nested_scroll_content" />
+</in.nerd_is.dragtodismiss.DragToDismissLayout>

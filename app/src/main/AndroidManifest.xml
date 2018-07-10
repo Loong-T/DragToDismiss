@@ -15,7 +15,7 @@
   ~    limitations under the License.
 -->
 <manifest xmlns:android="http://schemas.android.com/apk/res/android"
-  package="in.nerd_is.dragtodismisslayout.sample">
+  package="in.nerd_is.dragtodismiss.sample">
 
   <application
     android:allowBackup="true"
@@ -24,7 +24,7 @@
     android:roundIcon="@mipmap/ic_launcher_round"
     android:supportsRtl="true"
     android:theme="@style/AppTheme">
-    <activity android:name=".MainActivity">
+    <activity android:name="in.nerd_is.dragtodismiss.sample.MainActivity">
       <intent-filter>
         <action android:name="android.intent.action.MAIN" />
 
@@ -32,7 +32,7 @@
       </intent-filter>
     </activity>
     <activity
-      android:name=".SecondActivity"
+      android:name="in.nerd_is.dragtodismiss.sample.SecondActivity"
       android:label="@string/title_activity_second"
       android:theme="@style/AppTheme.TranslucentBackground">
     </activity>
