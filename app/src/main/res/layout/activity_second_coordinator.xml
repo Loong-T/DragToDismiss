@@ -23,7 +23,7 @@
   android:layout_height="match_parent"
   android:background="@android:color/white">
 
-  <android.support.v4.widget.NestedScrollView
+  <androidx.core.widget.NestedScrollView
     android:layout_width="match_parent"
     android:layout_height="wrap_content"
     app:layout_behavior="@string/behavior_drag_to_dismiss"
@@ -72,6 +72,6 @@
 
     </LinearLayout>
 
-  </android.support.v4.widget.NestedScrollView>
+  </androidx.core.widget.NestedScrollView>
 
 </in.nerd_is.dragtodismiss.DragToDismissCoordinatorLayout>

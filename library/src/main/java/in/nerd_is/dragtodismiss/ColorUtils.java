@@ -16,9 +16,9 @@
 
 package in.nerd_is.dragtodismiss;
 
-import android.support.annotation.CheckResult;
-import android.support.annotation.ColorInt;
-import android.support.annotation.IntRange;
+import androidx.annotation.CheckResult;
+import androidx.annotation.ColorInt;
+import androidx.annotation.IntRange;
 
 /**
  * @author Xuqiang ZHENG on 2017/4/7.

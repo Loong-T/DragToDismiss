@@ -16,7 +16,7 @@
 
 package in.nerd_is.dragtodismiss;
 
-import android.support.annotation.NonNull;
+import androidx.annotation.NonNull;
 
 import java.util.List;
 

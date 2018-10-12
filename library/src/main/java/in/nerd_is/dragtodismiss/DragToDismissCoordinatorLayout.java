@@ -17,8 +17,8 @@
 package in.nerd_is.dragtodismiss;
 
 import android.content.Context;
-import android.support.annotation.NonNull;
-import android.support.design.widget.CoordinatorLayout;
+import androidx.annotation.NonNull;
+import androidx.coordinatorlayout.widget.CoordinatorLayout;
 import android.util.AttributeSet;
 
 import java.util.ArrayList;
