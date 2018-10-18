@@ -32,14 +32,14 @@ public abstract class DragToDismissCallback {
      *                            dismiss distance has been reached.
      * @param rawOffsetPixels     The raw distance the user has dragged
      */
-    void onDrag(float elasticOffset, float elasticOffsetPixels,
-                float rawOffset, float rawOffsetPixels) {
+    public void onDrag(float elasticOffset, float elasticOffsetPixels,
+                       float rawOffset, float rawOffsetPixels) {
     }
 
     /**
      * Called when dragging is released and has exceeded the threshold dismiss distance.
      */
-    void onDragDismissed() {
+    public void onDragDismissed() {
     }
 
 }
