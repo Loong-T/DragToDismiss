@@ -43,8 +43,8 @@ public class DefaultDismissAnimator extends DragToDismissCallback {
     }
 
     @Override
-    void onDrag(float elasticOffset, float elasticOffsetPixels,
-                float rawOffset, float rawOffsetPixels) {
+    public void onDrag(float elasticOffset, float elasticOffsetPixels,
+                       float rawOffset, float rawOffsetPixels) {
         if (Build.VERSION.SDK_INT >= Build.VERSION_CODES.LOLLIPOP) {
             Window window = activity.getWindow();
             if (elasticOffsetPixels > 0) {
@@ -68,7 +68,7 @@ public class DefaultDismissAnimator extends DragToDismissCallback {
     }
 
     @Override
-    void onDragDismissed() {
+    public void onDragDismissed() {
         if (Build.VERSION.SDK_INT >= Build.VERSION_CODES.LOLLIPOP) {
             activity.finishAfterTransition();
         } else {
