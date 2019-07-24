@@ -4,6 +4,8 @@
 
 ## Usage
 
+### Add dependency
+
 Add the JitPack repository to your root build file:
 ```groovy
 allprojects {
@@ -21,9 +23,11 @@ dependencies {
 }
 ```
 
+### Use layout as the root container in a activity
+
 This library provides a DragToDismissLayout based on FrameLayout and a DragToDismissCoordinatorLayout based on CoordinatorLayout.
 
-### DragToDismissLayout
+#### DragToDismissLayout
 ```xml
 <in.nerd_is.dragtodismiss.DragToDismissLayout
   xmlns:android="http://schemas.android.com/apk/res/android"
@@ -38,13 +42,7 @@ This library provides a DragToDismissLayout based on FrameLayout and a DragToDis
 </in.nerd_is.dragtodismiss.DragToDismissLayout>
 ```
 
-Add your listener:
-```kotlin
-val view = findViewById<View>(R.id.dragToDismissLayout) as HasDismissCallback
-view.addListener(DefaultDismissAnimator(this))
-```
-
-### CoordinatorLayout
+#### CoordinatorLayout
 ```xml
 <in.nerd_is.dragtodismiss.DragToDismissCoordinatorLayout
   xmlns:android="http://schemas.android.com/apk/res/android"
@@ -65,12 +63,20 @@ view.addListener(DefaultDismissAnimator(this))
 </in.nerd_is.dragtodismiss.DragToDismissCoordinatorLayout>
 ```
 
-DragToDismissCoordinatorLayout uses a behavior to implement drag to dismiss, so remember to add it in the child view.
+DragToDismissCoordinatorLayout uses a behavior to implement dragging to dismiss, so remember to add it in the child view.
 
-Add your listener:
+### Add your listener
 ```kotlin
 val view = findViewById<View>(R.id.dragToDismissLayout) as HasDismissCallback
 view.addListener(DefaultDismissAnimator(this))
+```
+
+### Change the background of activity to translucent
+```xml
+<style name="AppTheme.TranslucentBackground">
+    <item name="android:windowIsTranslucent">true</item>
+    <item name="android:windowBackground">@color/translucent_background</item>
+</style>
 ```
 
 ## License
